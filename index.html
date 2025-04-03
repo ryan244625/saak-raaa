@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .captcha-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .captcha {
+            font-size: 24px;
+            color: blue;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+
+<div class="captcha-container">
+    <div class="captcha" id="captcha"></div>
+    <input type="text" id="captchaInput" placeholder="Enter CAPTCHA" />
+    <button onclick="validateCaptcha()">Submit</button>
+    <div id="message" style="color: red; margin-top: 10px;"></div>
+</div>
+
+<script>
+    // Function to generate a random CAPTCHA
+    function generateCaptcha() {
+        const characters = 'abcdefghijklmnopqrstuvwxyz';
+        let captcha = '';
+        for (let i = 0; i < 5; i++) {
+            captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        document.getElementById('captcha').innerText = captcha;
+        return captcha;
+    }
+
+    // Store the generated CAPTCHA
+    let generatedCaptcha = generateCaptcha();
+
+    // Function to validate the CAPTCHA
+    function validateCaptcha() {
+        const userInput = document.getElementById('captchaInput').value;
+        const message = document.getElementById('message');
+        
+        if (userInput.toLowerCase() === generatedCaptcha) {
+            // Redirect to the main page if CAPTCHA is correct
+            window.location.href = 'main.html'; // Change 'main.html' to your actual main page filename
+        } else {
+            message.style.color = 'red';
+            message.innerText = 'Incorrect CAPTCHA. Please try again.';
+            generatedCaptcha = generateCaptcha(); // Regenerate CAPTCHA on failure
+        }
+    }
+</script>
+
+</body>
+</html>
